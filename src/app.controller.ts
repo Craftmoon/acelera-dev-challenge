@@ -7,10 +7,17 @@ import { AxiosResponse } from 'axios';
 export class AppController {
   constructor(private readonly appService: AppService) {}
 
-  @Get('requestFile')
-  async createFile() {
-    const mensagem = await this.appService.createFile();
+  @Get('requestAndCreateFile')
+  async requestAndCreateFile() {
+    const message = await this.appService.requestAndCreateFile();
 
-    return mensagem;
+    return message;
+  }
+
+  @Get('loadAndDecryptFile')
+  async loadAndDecryptFile() {
+    const message = await this.appService.readFileAndDecrypt();
+
+    return message;
   }
 }

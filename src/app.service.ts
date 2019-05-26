@@ -1,9 +1,9 @@
-import { Injectable, HttpService } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 var fs = require('fs');
 
 @Injectable()
 export class AppService {
-  async createFile() {
+  async requestAndCreateFile() {
     const axios = require('axios');
 
     let res = await axios.get(
@@ -14,6 +14,52 @@ export class AppService {
       if (err) throw err;
     });
 
-    return { mensagem: 'Arquivo criado com sucesso' };
+    return { message: 'File successfully created' };
+  }
+
+  async readFileAndDecrypt() {
+    fs.readFile('answer.json', 'utf8', function(err, contents) {
+      if (err) throw err;
+
+      // Decifra a string e joga no json
+      function nextChar(letter) {
+        if (letter == ` `) return letter;
+        if (letter.includes('.')) return letter;
+        if (letter == 'w') return 'a';
+        if (letter == 'x') return 'b';
+        if (letter == 'y') return 'c';
+        if (letter == 'z') return 'd';
+
+        return String.fromCharCode(letter.charCodeAt(0) + 4);
+      }
+
+      let originalJson = JSON.parse(contents);
+
+      let lettersArray = Array.from(originalJson.cifrado);
+
+      lettersArray = lettersArray.map(nextChar);
+
+      originalJson.decifrado = lettersArray.join('');
+
+      // Faz o resumo criptografico sha1 e joga no json
+
+      // Dá load no modulo crypto
+      var crypto = require('crypto');
+
+      // Cria o objeto hash
+      var hash = crypto.createHash('sha1');
+
+      // Passa a informacao pra sofrer o hash
+      let infoDecifrada = hash.update(originalJson.decifrado, 'utf-8');
+
+      // Cria o hash no formato requerido
+      let resumoCryp = infoDecifrada.digest('hex');
+
+      originalJson.resumo_criptografico = resumoCryp;
+
+      fs.writeFile('answer.json', JSON.stringify(originalJson), function(err) {
+        if (err) throw err;
+      });
+    });
   }
 }
