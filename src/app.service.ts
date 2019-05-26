@@ -85,19 +85,6 @@ export class AppService {
           console.log('Upload successful!  Server responded with:', body);
         },
       );
-
-      // var formData = require('form-data');
-      // var request = require('request');
-      // var form = new formData();
-      // form.append('answer', contents);
-
-      // form.submit(
-      //   'https://api.codenation.dev/v1/challenge/dev-ps/submit-solution?token=8c1fbde808efed3618de43bb73b1b5d903f52f0d',
-      //   function(err, res) {
-      //     // res – response object (http.IncomingMessage)  //
-      //     res.resume();
-      //   },
-      // );
     });
   }
 }

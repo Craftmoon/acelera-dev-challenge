@@ -1,7 +1,5 @@
-import { Controller, Get, Res } from '@nestjs/common';
+import { Controller, Get } from '@nestjs/common';
 import { AppService } from './app.service';
-import { Observable } from 'rxjs';
-import { AxiosResponse } from 'axios';
 
 @Controller()
 export class AppController {
