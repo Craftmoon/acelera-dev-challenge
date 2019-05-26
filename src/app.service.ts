@@ -62,4 +62,42 @@ export class AppService {
       });
     });
   }
+
+  async submitFile() {
+    fs.readFile('answer.json', 'utf8', function(err, contents) {
+      if (err) throw err;
+
+      var request = require('request');
+
+      var formData = {
+        answer: fs.createReadStream('./answer.json'),
+      };
+      request.post(
+        {
+          url:
+            'https://api.codenation.dev/v1/challenge/dev-ps/submit-solution?token=8c1fbde808efed3618de43bb73b1b5d903f52f0d',
+          formData: formData,
+        },
+        function(err, httpResponse, body) {
+          if (err) {
+            return console.error('upload failed:', err);
+          }
+          console.log('Upload successful!  Server responded with:', body);
+        },
+      );
+
+      // var formData = require('form-data');
+      // var request = require('request');
+      // var form = new formData();
+      // form.append('answer', contents);
+
+      // form.submit(
+      //   'https://api.codenation.dev/v1/challenge/dev-ps/submit-solution?token=8c1fbde808efed3618de43bb73b1b5d903f52f0d',
+      //   function(err, res) {
+      //     // res – response object (http.IncomingMessage)  //
+      //     res.resume();
+      //   },
+      // );
+    });
+  }
 }

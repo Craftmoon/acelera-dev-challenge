@@ -20,4 +20,11 @@ export class AppController {
 
     return message;
   }
+
+  @Get('submitFile')
+  async submitFile() {
+    const message = await this.appService.submitFile();
+
+    return message;
+  }
 }
